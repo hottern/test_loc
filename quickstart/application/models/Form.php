@@ -1,5 +1,7 @@
 <?php
 
+
+
 class Url_Validator extends Zend_Validate_Abstract
 {
     const INVALID_URL = 'invalidUrl';
@@ -21,10 +23,19 @@ class Url_Validator extends Zend_Validate_Abstract
     }
 }
 
+
+
 class Application_Model_Form extends Zend_Form
 {
+
     public function init()
     {
+
+
+
+
+        $this->setName('upload');
+        $this->setAttrib('enctype', 'multipart/form-data');
         $this->setMethod('post');
         // add name
         $this->addElement('text', 'user', array(
@@ -49,6 +60,7 @@ class Application_Model_Form extends Zend_Form
         ));
 
 
+
         // Add an homepage element
         $this->addElement('text', 'homepage', array(
             'label'      => 'Homepage:',
@@ -62,12 +74,31 @@ class Application_Model_Form extends Zend_Form
 
         // Add the comment element
         $this->addElement('textarea', 'comment', array(
+            'id'         => 'txtContent',
             'label'      => 'Comment:',
             'required'   => true,
             'validators' => array(
                 array('validator' => 'StringLength', 'options' => array(0, 2000))
             )
         ));
+        $text_file = new Zend_Form_Element_File('file');
+        $text_file->setLabel('text_file')
+            ->addValidator('Size', false, 102400)
+            ->addValidator('Extension', false, 'jpg,png,gif')
+            //->setDestination('tutu')
+            ->setRequired(true);
+        $submit = new Zend_Form_Element_Submit('submit');
+        $submit->setLabel('Upload');
+        $this->addElements(array($text_file, $submit));
+
+
+        //add file
+      //  $file = $this->createElement('file', 'photourl');
+       // $file->setLabel('Add photo');
+       // $file->setRequired(true);
+       // $this->addElement($file);
+
+
         // Add a captcha
         $this->addElement('captcha', 'captcha', array(
             'label'      => 'Wite 5 symbol from the picture :',
