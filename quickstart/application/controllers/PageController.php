@@ -74,7 +74,7 @@ class PageController extends Zend_Controller_Action
             if ($form->isValid($request->getPost())) {
 
                 $comment = new Application_Model_Page($form->getValues());
-                $mapper  = new Application_Model_GuestbookMapper();
+                $mapper  = new Application_Model_PageMapper();
                 $mapper->save($comment);
                 return $this->_helper->redirector('index');
             }
